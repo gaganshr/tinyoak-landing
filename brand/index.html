@@ -66,9 +66,10 @@
   .hero-tag span { width: 26px; height: 1px; background: #b98fe4; }
 
   /* ---------- Story ---------- */
-  .story { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-  @media (max-width: 760px){ .story { grid-template-columns: 1fr; gap: 24px; } }
-  .story p { margin: 0 0 16px; color: var(--muted); }
+  .story { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: stretch; }
+  @media (max-width: 760px){ .story { grid-template-columns: 1fr; gap: 24px; } .story > div { justify-content: flex-start !important; } }
+  .story > div { display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+  .story p { margin: 0; color: var(--muted); }
   .story p strong { color: var(--ink); font-weight: 500; }
   .pullnum { font-family: var(--font-display); font-weight: 300; font-size: 20px; color: var(--brand); }
 
@@ -113,7 +114,8 @@
   .pillar .ds { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
 
   /* ---------- Type ---------- */
-  .type-row { border-top: 1px solid var(--line); padding: 26px 0; display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: baseline; }
+  .type-row { border-top: 1px solid var(--line); padding: 26px 0; display: grid; grid-template-columns: 260px 1fr; gap: 28px; align-items: baseline; }
+  .type-meta .role { white-space: nowrap; }
   @media (max-width: 720px){ .type-row { grid-template-columns: 1fr; gap: 10px; } }
   .type-meta .fn { font-family: var(--font-display); font-weight: 500; font-size: 22px; }
   .type-meta .role { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-top: 4px; }

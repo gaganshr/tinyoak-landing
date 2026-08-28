@@ -77,8 +77,8 @@
   @media (max-width: 760px){ .logo-grid { grid-template-columns: 1fr; } }
   .logo-card { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 40px 34px; display: grid; place-items: center; min-height: 200px; position: relative; }
   .logo-card.ink { background: var(--brand); border-color: var(--brand); }
-  .logo-card img.horiz { height: 46px; }
-  .logo-card img.mk { width: 88px; }
+  .logo-card img.horiz { height: 84px; width: auto; max-width: 88%; }
+  .logo-card img.mk { height: 84px; width: auto; }
   .logo-card .cap { position: absolute; left: 16px; bottom: 12px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
   .logo-card.ink .cap { color: #d9c6f2; }
   .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
@@ -152,10 +152,12 @@
   <div class="wrap">
     <a href="/" class="logo" aria-label="Tiny Oak"><img src="/assets/tinyoak-logo-horizontal.svg" alt="Tiny Oak" class="logo-mark"></a>
     <nav class="nav-links">
-      <a href="/#framework" class="hide-sm">Framework</a>
-      <a href="/#how" class="hide-sm">How it works</a>
-      <a href="/#why" class="hide-sm">Why Tiny Oak</a>
-      <a href="/#contact" class="hide-sm">Contact</a>
+      <a href="#story" class="hide-sm">Story</a>
+      <a href="#logo" class="hide-sm">Logo</a>
+      <a href="#color" class="hide-sm">Colour</a>
+      <a href="#light" class="hide-sm">LIGHT</a>
+      <a href="#type" class="hide-sm">Type</a>
+      <a href="#voice" class="hide-sm">Voice</a>
       <a href="https://grow.thetinyoak.com/" class="nav-cta">Sign in</a>
     </nav>
   </div>
@@ -174,7 +176,7 @@
 </header>
 
 <section class="tight">
-  <div class="wrap"><p class="lede" data-reveal>A brand about growth you can watch happen: patient, deliberate, and built to last.</p></div>
+  <div class="wrap"><p class="lede" data-reveal>A brand about growth that is patient, deliberate, and built to last.</p></div>
 </section>
 
 <section id="story">
@@ -186,13 +188,13 @@
     </div>
     <div class="story" data-reveal>
       <div>
-        <p><strong>A review is not an event. It's a thread your team runs through the year.</strong> Goals set, progress logged, a conversation had: small, repeated acts that most tools make forgettable and Tiny Oak makes count.</p>
-        <p>Every mighty oak was once an acorn that held its ground. Tiny Oak is named for the beginning of that story, not the end: the small thing, tended on a rhythm, becoming something that leads.</p>
+        <p><strong>The Tiny Oak transforms reviews from events to sprints that your teams run through the year.</strong> Goals set, progress logged, timely flags: small, repeated acts that ensure shared success, and performance led growth.</p>
+        <p>Every mighty oak was once an acorn that held its ground. Tiny Oak is named for the beginning of that story: the small thing, tended on a rhythm, becoming something that leads.</p>
       </div>
       <div>
-        <p><span class="pullnum">01 ·</span> <strong>Small over sudden.</strong> We reward the habit, not the heroics. Consistency is the product.</p>
-        <p><span class="pullnum">02 ·</span> <strong>A thread, not an event.</strong> One cycle, three movements, continuous in between.</p>
-        <p><span class="pullnum">03 ·</span> <strong>Rooted, not rigid.</strong> Grounded and calm, never bureaucratic. Reviews that build leaders, not paperwork.</p>
+        <p><span class="pullnum">01 ·</span> We reward the habit, not the heroics. Consistency matters.</p>
+        <p><span class="pullnum">02 ·</span> Performance linked incentives &amp; flags converge with company goals to deliver a powerful system of accountability and deliberate growth.</p>
+        <p><span class="pullnum">03 ·</span> Continuous communication. A system that keeps you informed and ensures you succeed.</p>
       </div>
     </div>
   </div>
@@ -223,7 +225,6 @@
     <div class="sec-head" data-reveal>
       <div class="eyebrow">Colour</div>
       <h2>Royal purple on white</h2>
-      <p>One confident brand colour on a clean, bright ground. Purple carries every identity and interactive moment; a deep near-violet anchors the darker end, and the greys stay quiet so the content leads.</p>
     </div>
     <div class="swatches" data-reveal>
       <div class="sw"><div class="chipc" style="background:#6321A9"></div><div class="meta"><div class="nm">Tiny Oak Purple</div><div class="hx">#6321A9</div><div class="role">The brand. Links, primary actions, the mark, active state.</div></div></div>
@@ -258,11 +259,11 @@
       <p>Tiny Oak organises leadership growth around five levels, each defined by who it serves, from keeping the business alive to serving a higher purpose. Every goal maps to a rung, and each rung carries its own colour.</p>
     </div>
     <div class="light" data-reveal>
-      <div class="pillar"><div class="top" style="background:var(--lead)"></div><div class="body"><div class="lg" style="color:var(--lead)">L</div><div class="nm">Lead</div><div class="sv">Serving a higher purpose</div><div class="ds">The top of the ladder: leaders who serve something beyond themselves.</div></div></div>
-      <div class="pillar"><div class="top" style="background:var(--innovate)"></div><div class="body"><div class="lg" style="color:var(--innovate)">I</div><div class="nm">Innovate</div><div class="sv">Serving the company</div><div class="ds">Building what moves the whole organisation forward.</div></div></div>
-      <div class="pillar"><div class="top" style="background:var(--grow)"></div><div class="body"><div class="lg" style="color:var(--grow)">G</div><div class="nm">Grow</div><div class="sv">Serving clients</div><div class="ds">Creating value clients feel, and choose to pay for.</div></div></div>
-      <div class="pillar"><div class="top" style="background:var(--hone)"></div><div class="body"><div class="lg" style="color:var(--hone)">H</div><div class="nm">Hone</div><div class="sv">Serving the team</div><div class="ds">Sharpening craft so the people around you rise.</div></div></div>
-      <div class="pillar"><div class="top" style="background:var(--transform)"></div><div class="body"><div class="lg" style="color:var(--transform)">T</div><div class="nm">Transform</div><div class="sv">Serving survival</div><div class="ds">The foundation: doing what keeps the business alive.</div></div></div>
+      <div class="pillar"><div class="top" style="background:var(--lead)"></div><div class="body"><div class="lg" style="color:var(--lead)">L</div><div class="nm">Lead</div><div class="sv">Serve a higher purpose</div><div class="ds">The top of the ladder signifies service to a cause.</div></div></div>
+      <div class="pillar"><div class="top" style="background:var(--innovate)"></div><div class="body"><div class="lg" style="color:var(--innovate)">I</div><div class="nm">Innovate</div><div class="sv">Serve the company</div><div class="ds">Building what moves the whole organisation forward.</div></div></div>
+      <div class="pillar"><div class="top" style="background:var(--grow)"></div><div class="body"><div class="lg" style="color:var(--grow)">G</div><div class="nm">Grow</div><div class="sv">Serve clients</div><div class="ds">Creating value clients feel, and choose to pay for.</div></div></div>
+      <div class="pillar"><div class="top" style="background:var(--hone)"></div><div class="body"><div class="lg" style="color:var(--hone)">H</div><div class="nm">Hone</div><div class="sv">Serve the team</div><div class="ds">Sharpening craft so the people around you rise.</div></div></div>
+      <div class="pillar"><div class="top" style="background:var(--transform)"></div><div class="body"><div class="lg" style="color:var(--transform)">T</div><div class="nm">Transform</div><div class="sv">Serve survival</div><div class="ds">The foundation: doing what keeps the business alive.</div></div></div>
     </div>
     <p class="mono" style="font-family:var(--font-mono);font-size:12px;color:var(--faint);margin-top:16px" data-reveal>Rung colours · Lead #1E3A8A · Innovate #A21CAF · Grow #15803D · Hone #B45309 · Transform #0F766E</p>
   </div>
@@ -272,7 +273,7 @@
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <div class="eyebrow">Typography</div>
-      <h2>Three voices, one system</h2>
+      <h2>Simple, readable fonts. Bold actions.</h2>
       <p>A tall condensed display face for confidence, a plain humanist body for clarity, and a mono for anything measured. All three from Google Fonts, so they render everywhere the product and the site do.</p>
     </div>
     <div data-reveal>
@@ -297,7 +298,7 @@
     <div class="sec-head" data-reveal>
       <div class="eyebrow">Voice &amp; tone</div>
       <h2>Plain-spoken and grounded</h2>
-      <p>Write like a good manager talks: clear, warm, and specific. We name things by what people recognise, use active voice, and never dress up a simple idea. British spelling throughout.</p>
+      <p>The voice and tone of Tiny Oak is modelled on a good team leader: clear, warm, and specific. We name things by what people recognise. We use active voice, and never dress up a simple idea.</p>
     </div>
     <div class="voice" data-reveal>
       <div class="vcard"><h3>Grounded</h3><p>Concrete over clever. We'd rather be useful than impressive.</p><div class="vs"><div class="y"><b>Yes</b>You're 2 days from the weekly cut-off.</div><div class="n"><b>Not</b>Time is running out. Act now.</div></div></div>

@@ -1255,6 +1255,26 @@
     submitBtn.textContent = busy ? 'Sending…' : btnLabel;
   }
 
+  // True once a real Web3Forms key is in place. Until then the form degrades to
+  // the mail-compose path, so it keeps working and deploying is always safe.
+  var hasKey = W3F_ACCESS_KEY && W3F_ACCESS_KEY.indexOf('REPLACE_WITH') === -1;
+
+  function success(first) {
+    modal({
+      icon: '&#10003;', iconBg: '#efe7f8', iconFg: '#6321A9',
+      title: 'Request sent',
+      body: 'Thanks' + (first ? ', ' + esc(first) : '') + ' &mdash; your walkthrough request has been sent to the Tiny Oak team. We&rsquo;ll be in touch at the email you provided within one business day.'
+    });
+  }
+  function failure() {
+    modal({
+      icon: '!', iconBg: '#fbe9e7', iconFg: '#c33f3b',
+      title: 'Couldn’t send just now',
+      body: 'Something went wrong sending your request. Please email us directly at <a href="mailto:hello@thetinyoak.com" style="color:#6321A9;font-weight:600;">hello@thetinyoak.com</a> and we&rsquo;ll pick it up right away.',
+      cta: 'Close'
+    });
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var box = form.querySelector('[name="botcheck"]');
@@ -1262,43 +1282,40 @@
     var v = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
     var name = v('name'), email = v('email'), company = v('company'), size = v('size');
     var first = name.split(/\s+/)[0];
+    var subject = 'Walkthrough request — ' + (name || 'Tiny Oak') + (company ? ' (' + company + ')' : '');
 
+    // No key yet → open a pre-composed email in the visitor's mail client
+    // (the previously-shipped, always-safe behaviour).
+    if (!hasKey) {
+      var mbody = 'A new walkthrough request from the Tiny Oak site:\n\n'
+        + 'Name: ' + name + '\nWork email: ' + email + '\nCompany / team: ' + company + '\nTeam size: ' + size + '\n';
+      var a = document.createElement('a');
+      a.href = 'mailto:hello@thetinyoak.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(mbody);
+      a.style.display = 'none';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      success(first); form.reset();
+      return;
+    }
+
+    // Key present → send server-side to hello@thetinyoak.com via Web3Forms.
     setBusy(true);
-
-    var payload = {
-      access_key: W3F_ACCESS_KEY,
-      subject: 'Walkthrough request — ' + (name || 'Tiny Oak') + (company ? ' (' + company + ')' : ''),
-      from_name: 'Tiny Oak website',
-      replyto: email,
-      name: name,
-      email: email,
-      company: company,
-      team_size: size
-    };
-
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        access_key: W3F_ACCESS_KEY,
+        subject: subject,
+        from_name: 'Tiny Oak website',
+        replyto: email,
+        name: name, email: email, company: company, team_size: size
+      })
     })
       .then(function (r) { return r.json().catch(function () { return { success: false }; }); })
       .then(function (data) {
         if (!data || !data.success) throw new Error((data && data.message) || 'send failed');
-        form.reset();
-        modal({
-          icon: '&#10003;', iconBg: '#efe7f8', iconFg: '#6321A9',
-          title: 'Request sent',
-          body: 'Thanks' + (first ? ', ' + esc(first) : '') + ' &mdash; your walkthrough request has been sent to the Tiny Oak team. We&rsquo;ll be in touch at the email you provided within one business day.'
-        });
+        form.reset(); success(first);
       })
-      .catch(function () {
-        modal({
-          icon: '!', iconBg: '#fbe9e7', iconFg: '#c33f3b',
-          title: 'Couldn’t send just now',
-          body: 'Something went wrong sending your request. Please email us directly at <a href="mailto:hello@thetinyoak.com" style="color:#6321A9;font-weight:600;">hello@thetinyoak.com</a> and we&rsquo;ll pick it up right away.',
-          cta: 'Close'
-        });
-      })
+      .catch(function () { failure(); })
       .then(function () { setBusy(false); });
   });
 })();

@@ -1193,7 +1193,7 @@
           Performance reviews are the rare moment when a year gets to be a story instead of a calendar. Your reflection, your manager's coaching, your organisation's calibration — converging on one shared artifact. Tiny Oak makes the story structured, evidence-based, and forward-shaping.
         </p>
       </div>
-      <form class="cta-form reveal" action="mailto:hello@thetinyoak.com" method="post" enctype="text/plain">
+      <form class="cta-form reveal" id="ctaForm">
         <div class="field">
           <input type="text" name="name" placeholder="Your name" required="">
           <input type="email" name="email" placeholder="Work email" required="">
@@ -1208,6 +1208,62 @@
     </div>
   </div>
 </section>
+
+<!-- Walkthrough request: send the email + confirm to the visitor (no insecure form POST). -->
+<script>
+(function () {
+  var form = document.getElementById('ctaForm');
+  if (!form) return;
+
+  function showConfirm(name) {
+    var first = (name || '').trim().split(/\s+/)[0];
+    var overlay = document.createElement('div');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Request sent');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(20,10,35,0.62);';
+    var card = document.createElement('div');
+    card.style.cssText = 'max-width:420px;width:100%;background:#fff;color:#241436;border-radius:16px;padding:34px 30px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,0.4);font-family:inherit;';
+    var safeFirst = first ? (', ' + first.replace(/[<>&]/g, '')) : '';
+    card.innerHTML =
+      '<div style="width:56px;height:56px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;background:#efe7f8;color:#6321A9;font-size:28px;line-height:1;">&#10003;</div>' +
+      '<h3 style="margin:0 0 10px;font-size:22px;font-weight:700;">Request sent</h3>' +
+      '<p style="margin:0 0 24px;font-size:15px;line-height:1.55;color:#5c5470;">Thanks' + safeFirst + ' &mdash; your walkthrough request is on its way to the Tiny Oak team. We&rsquo;ll be in touch at the email you provided within one business day.</p>' +
+      '<button type="button" id="ctaDone" style="border:none;background:#6321A9;color:#fff;font-size:15px;font-weight:600;padding:11px 28px;border-radius:8px;cursor:pointer;font-family:inherit;">Done</button>';
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+    var close = function () { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); };
+    var btn = card.querySelector('#ctaDone');
+    btn.addEventListener('click', close);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', function onKey(e) { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); } });
+    btn.focus();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
+    var name = v('name'), email = v('email'), company = v('company'), size = v('size');
+    var subject = 'Walkthrough request — ' + (name || 'Tiny Oak') + (company ? ' (' + company + ')' : '');
+    var body = 'A new walkthrough request from the Tiny Oak site:\n\n'
+      + 'Name: ' + name + '\n'
+      + 'Work email: ' + email + '\n'
+      + 'Company / team: ' + company + '\n'
+      + 'Team size: ' + size + '\n';
+    var href = 'mailto:hello@thetinyoak.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    // Open the visitor's mail client with the request pre-composed, without
+    // navigating the page away (a hidden anchor click, not window.location).
+    var a = document.createElement('a');
+    a.href = href;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showConfirm(name);
+    form.reset();
+  });
+})();
+</script>
 
 <!-- ===== FOOTER ===== -->
 <footer class="site">

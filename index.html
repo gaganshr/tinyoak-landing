@@ -1199,6 +1199,7 @@
           <input type="email" name="email" placeholder="Work email" required="">
           <input type="text" name="company" placeholder="Company or team">
           <input type="text" name="size" placeholder="Team size">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none !important" aria-hidden="true">
           <button type="submit">Request walkthrough</button>
         </div>
         <p class="alt">
@@ -1209,27 +1210,35 @@
   </div>
 </section>
 
-<!-- Walkthrough request: send the email + confirm to the visitor (no insecure form POST). -->
+<!-- Walkthrough request: submitted server-side via Web3Forms (delivers to
+     hello@thetinyoak.com), then confirms to the visitor. No visitor mail client. -->
 <script>
 (function () {
+  // Web3Forms access key for hello@thetinyoak.com.
+  // Generate free at https://web3forms.com (enter hello@thetinyoak.com — the key
+  // is emailed instantly), then paste it below. The key alone routes every
+  // submission to that inbox; nothing else needs configuring.
+  var W3F_ACCESS_KEY = 'REPLACE_WITH_WEB3FORMS_ACCESS_KEY';
+
   var form = document.getElementById('ctaForm');
   if (!form) return;
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var btnLabel = submitBtn ? submitBtn.textContent : 'Request walkthrough';
+  var esc = function (s) { return (s || '').replace(/[<>&]/g, function (c) { return c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&amp;'; }); };
 
-  function showConfirm(name) {
-    var first = (name || '').trim().split(/\s+/)[0];
+  function modal(o) {
     var overlay = document.createElement('div');
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', 'Request sent');
+    overlay.setAttribute('aria-label', o.title);
     overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(20,10,35,0.62);';
     var card = document.createElement('div');
     card.style.cssText = 'max-width:420px;width:100%;background:#fff;color:#241436;border-radius:16px;padding:34px 30px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,0.4);font-family:inherit;';
-    var safeFirst = first ? (', ' + first.replace(/[<>&]/g, '')) : '';
     card.innerHTML =
-      '<div style="width:56px;height:56px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;background:#efe7f8;color:#6321A9;font-size:28px;line-height:1;">&#10003;</div>' +
-      '<h3 style="margin:0 0 10px;font-size:22px;font-weight:700;">Request sent</h3>' +
-      '<p style="margin:0 0 24px;font-size:15px;line-height:1.55;color:#5c5470;">Thanks' + safeFirst + ' &mdash; your walkthrough request is on its way to the Tiny Oak team. We&rsquo;ll be in touch at the email you provided within one business day.</p>' +
-      '<button type="button" id="ctaDone" style="border:none;background:#6321A9;color:#fff;font-size:15px;font-weight:600;padding:11px 28px;border-radius:8px;cursor:pointer;font-family:inherit;">Done</button>';
+      '<div style="width:56px;height:56px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;background:' + o.iconBg + ';color:' + o.iconFg + ';font-size:28px;line-height:1;">' + o.icon + '</div>' +
+      '<h3 style="margin:0 0 10px;font-size:22px;font-weight:700;">' + o.title + '</h3>' +
+      '<p style="margin:0 0 24px;font-size:15px;line-height:1.55;color:#5c5470;">' + o.body + '</p>' +
+      '<button type="button" id="ctaDone" style="border:none;background:#6321A9;color:#fff;font-size:15px;font-weight:600;padding:11px 28px;border-radius:8px;cursor:pointer;font-family:inherit;">' + (o.cta || 'Done') + '</button>';
     overlay.appendChild(card);
     document.body.appendChild(overlay);
     var close = function () { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); };
@@ -1240,27 +1249,57 @@
     btn.focus();
   }
 
+  function setBusy(busy) {
+    if (!submitBtn) return;
+    submitBtn.disabled = busy;
+    submitBtn.textContent = busy ? 'Sending…' : btnLabel;
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    var box = form.querySelector('[name="botcheck"]');
+    if (box && box.checked) return; // spam honeypot tripped — silently drop
     var v = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
     var name = v('name'), email = v('email'), company = v('company'), size = v('size');
-    var subject = 'Walkthrough request — ' + (name || 'Tiny Oak') + (company ? ' (' + company + ')' : '');
-    var body = 'A new walkthrough request from the Tiny Oak site:\n\n'
-      + 'Name: ' + name + '\n'
-      + 'Work email: ' + email + '\n'
-      + 'Company / team: ' + company + '\n'
-      + 'Team size: ' + size + '\n';
-    var href = 'mailto:hello@thetinyoak.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    // Open the visitor's mail client with the request pre-composed, without
-    // navigating the page away (a hidden anchor click, not window.location).
-    var a = document.createElement('a');
-    a.href = href;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    showConfirm(name);
-    form.reset();
+    var first = name.split(/\s+/)[0];
+
+    setBusy(true);
+
+    var payload = {
+      access_key: W3F_ACCESS_KEY,
+      subject: 'Walkthrough request — ' + (name || 'Tiny Oak') + (company ? ' (' + company + ')' : ''),
+      from_name: 'Tiny Oak website',
+      replyto: email,
+      name: name,
+      email: email,
+      company: company,
+      team_size: size
+    };
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json().catch(function () { return { success: false }; }); })
+      .then(function (data) {
+        if (!data || !data.success) throw new Error((data && data.message) || 'send failed');
+        form.reset();
+        modal({
+          icon: '&#10003;', iconBg: '#efe7f8', iconFg: '#6321A9',
+          title: 'Request sent',
+          body: 'Thanks' + (first ? ', ' + esc(first) : '') + ' &mdash; your walkthrough request has been sent to the Tiny Oak team. We&rsquo;ll be in touch at the email you provided within one business day.'
+        });
+      })
+      .catch(function () {
+        modal({
+          icon: '!', iconBg: '#fbe9e7', iconFg: '#c33f3b',
+          title: 'Couldn’t send just now',
+          body: 'Something went wrong sending your request. Please email us directly at <a href="mailto:hello@thetinyoak.com" style="color:#6321A9;font-weight:600;">hello@thetinyoak.com</a> and we&rsquo;ll pick it up right away.',
+          cta: 'Close'
+        });
+      })
+      .then(function () { setBusy(false); });
   });
 })();
 </script>

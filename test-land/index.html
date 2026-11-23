@@ -17,6 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
 <link href="/assets/fonts.css" rel="stylesheet">
+<!-- Font-framework mock: Newsreader (display/serif) + Inter (body/UI) + IBM Plex Mono (data, from fonts.css above). All SIL OFL / free for commercial use. -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   /*
@@ -26,8 +28,8 @@
    *   Positive. Research-aware. CHRO-tuned. Affirmative construction
    *   throughout (no X-not-Y patterns, no problem-led framing).
    *
-   * FONTS (matches the product)
-   *   Roboto, Barlow Condensed, IBM Plex Mono
+   * FONTS (framework mock — see /test-land)
+   *   Newsreader (display/titles) + Inter (body/UI) + IBM Plex Mono (data)
    *
    * Search "EDIT:" to find copy blocks.
    */
@@ -36,7 +38,7 @@
   html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   body {
     margin: 0;
-    font-family: "Roboto", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 400;
     color: #191c1b;
     line-height: 1.6;
@@ -139,8 +141,11 @@
   }
 
   h1, h2, h3, h4 {
-    font-family: "Barlow Condensed", "Barlow", sans-serif;
-    line-height: 1.4;
+    font-family: "Newsreader", Georgia, serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
     margin: 0;
     text-wrap: balance;
   }
@@ -245,7 +250,7 @@
     margin-bottom: 40px;
   }
   .hero-eyebrow {
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: "Newsreader", Georgia, serif;
     font-style: italic;
     color: #d98a2b;
     font-size: 16px;
@@ -254,9 +259,9 @@
   }
   .hero h1 {
     font-size: 64px;
-    font-weight: 600;
-    line-height: 1.4;
-    letter-spacing: -0.005em;
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
     margin: 0 0 20px;
     color: #191c1b;
   }
@@ -271,7 +276,7 @@
   .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
 
   .btn-primary, .btn-ghost {
-    font-family: "Roboto", sans-serif;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     padding: 13px 24px;
     border-radius: 4px;
     text-decoration: none;
@@ -327,7 +332,7 @@
   }
   .mock-card-label { font-size: 13px; color: #888; margin-bottom: 4px; }
   .mock-card-value {
-    font-family: "Barlow Condensed", sans-serif;
+    font-family: "Newsreader", Georgia, serif;
     font-size: 30px;
     font-weight: 600;
     color: #1e463a;
@@ -355,7 +360,7 @@
     border-radius: 50%;
     background: #1e463a; color: #fff;
     display: flex; align-items: center; justify-content: center;
-    font-family: "Barlow Condensed", sans-serif;
+    font-family: "Newsreader", Georgia, serif;
     font-size: 16px; font-weight: 600;
     line-height: 1;
   }
@@ -496,7 +501,7 @@
     flex-direction: column;
   }
   .poss-card .num {
-    font-family: "Barlow Condensed", sans-serif;
+    font-family: "Newsreader", Georgia, serif;
     font-size: 42px;
     font-weight: 300;
     color: #1e463a;
@@ -620,7 +625,7 @@
     color: #fff;
   }
   .rung .letter {
-    font-family: "Barlow Condensed", sans-serif;
+    font-family: "Newsreader", Georgia, serif;
     font-size: 36px;
     font-weight: 600;
     line-height: 1;
@@ -752,7 +757,7 @@
   }
   .cta-form .field { display: flex; flex-direction: column; gap: 12px; }
   .cta-form input, .cta-form textarea {
-    font-family: "Roboto", sans-serif;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #fff;
@@ -768,7 +773,7 @@
     background: rgba(255, 255, 255, 0.12);
   }
   .cta-form button {
-    font-family: "Roboto", sans-serif;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     background: #fff;
     color: #15332a;
     border: none;

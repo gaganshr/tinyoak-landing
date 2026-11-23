@@ -246,7 +246,7 @@
     display: grid;
     grid-template-columns: 1.1fr 1fr;
     gap: 56px;
-    align-items: start;
+    align-items: center;
     margin-bottom: 40px;
   }
   .hero-eyebrow {
@@ -564,7 +564,7 @@
        text column will now match the ladder's full height. The flex
        layout on .intro-stack below distributes paragraphs evenly
        across that stretched height. */
-    align-items: stretch;
+    align-items: center;
   }
   .framework .intro-stack {
     display: flex;
@@ -579,7 +579,7 @@
        (and therefore stretched by align-items: stretch on the
        grid). The wrapper div that previously sat between the grid
        and this element broke the chain -- removed in the HTML. */
-    justify-content: space-between;
+    justify-content: center;
     gap: 32px;
   }
   .framework p.lead {
@@ -644,8 +644,8 @@
   .rung.i { background: #1e463a; }
   .rung.g { background: #2c5e4c; }
   .rung.h { background: #4a7c68; }
-  .rung.t { background: #e09f3e; color: #15332a; }
-  .rung.t .attrs { opacity: 0.8; }
+  .rung.t { background: #e09f3e; color: #14241e; }
+  .rung.t .attrs { opacity: 1; }
 
   /* ---------- How ---------- */
   .how-steps {
